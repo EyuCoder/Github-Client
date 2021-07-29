@@ -8,7 +8,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,4 +32,13 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavView.setupWithNavController(navController)
     }
+
+//    override fun onBackPressed() {
+//        Snackbar.make(Context, "Are you sure you want to exit?", Snackbar.LENGTH_LONG)
+//            .setAction("Exit!") {
+//                super.onBackPressed()
+//            }
+//            .setBackgroundTint(Color.BLACK)
+//            .show()
+//    }
 }

@@ -1,43 +1,42 @@
-package com.codexo.githubclient
+package com.codexo.githubclient.home
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
-import com.codexo.githubclient.databinding.FragmentNotificationsBinding
-import com.codexo.githubclient.home.HomeFragment
+import androidx.core.view.isVisible
+import com.codexo.githubclient.R
+import com.codexo.githubclient.databinding.FragmentHomeBinding
 
-class NotificationsFragment : Fragment() {
-    private var _binding: FragmentNotificationsBinding? = null
+class HomeFragment : Fragment(R.layout.fragment_home) {
+    private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentHomeBinding.bind(view)
         setupWebView(savedInstanceState)
         binding!!.swipeRefresh.setOnRefreshListener { refreshPage() }
-
-        return binding!!.root
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun setupWebView(savedInstanceState: Bundle?) {
-        binding!!.wvNotification.webViewClient = MyWVClient()
-        binding!!.wvNotification.loadUrl(mainUrl)
+        binding!!.wvHome.webViewClient = MyWVClient()
+        binding!!.wvHome.loadUrl(mainUrl)
         if (savedInstanceState != null) {
-            binding!!.wvNotification.restoreState(savedInstanceState)
+            binding!!.wvHome.restoreState(savedInstanceState)
         } else {
-            binding!!.wvNotification.settings.apply {
+            binding!!.wvHome.settings.apply {
                 javaScriptEnabled = true
                 domStorageEnabled = true
                 setSupportMultipleWindows(true)
@@ -45,17 +44,17 @@ class NotificationsFragment : Fragment() {
                 allowFileAccess = true
             }
 
-            binding!!.wvNotification.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
-            binding!!.wvNotification.webChromeClient = object : WebChromeClient() {
+            binding!!.wvHome.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
+            binding!!.wvHome.webChromeClient = object : WebChromeClient() {
                 override fun onProgressChanged(view: WebView, newProgress: Int) {
                     super.onProgressChanged(view, newProgress)
                     if (newProgress < 80) {
                         binding!!.pbDialog.visibility = View.VISIBLE
-                        binding!!.wvNotification.visibility = View.GONE
+                        binding!!.wvHome.visibility = View.GONE
                     }
                     if (newProgress >= 80) {
-                        binding!!.wvNotification.visibility = View.VISIBLE
-                        binding!!.pbDialog.visibility = View.VISIBLE
+                        binding!!.wvHome.visibility = View.VISIBLE
+                        binding!!.pbDialog.visibility = View.GONE
                         binding!!.swipeRefresh.isRefreshing = false
                     } else {
                         binding!!.pbDialog.visibility = View.VISIBLE
@@ -67,17 +66,26 @@ class NotificationsFragment : Fragment() {
     }
 
     private fun refreshPage() {
-        binding!!.wvNotification.apply {
+        binding!!.wvHome.apply {
             webViewClient = MyWVClient()
-            loadUrl(binding!!.wvNotification.url.toString())
+            loadUrl(binding!!.wvHome.url.toString())
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        binding!!.wvHome.saveState(outState)
+    }
+
     companion object {
-        private const val mainUrl = "https://github.com/notifications"
+        private const val mainUrl = "https://github.com/login"
         private val targetUrl =
             listOf("www.github.com", "www.github.com/", "github.com", "github.com/")
         private val CLASS_TAG = HomeFragment::class.java.simpleName.toString()
+    }
+
+    private fun reloadActivity(url: String) {
+        TODO("Not yet implemented")
     }
 
     override fun onDestroy() {
@@ -89,7 +97,7 @@ class NotificationsFragment : Fragment() {
         override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
 
             if (Uri.parse(url).host in targetUrl) {
-                binding!!.wvNotification.loadUrl(url)
+                binding!!.wvHome.loadUrl(url)
 //                reloadActivity(url)
                 Toast.makeText(context, Uri.parse(url).host, Toast.LENGTH_LONG).show()
             } else {
