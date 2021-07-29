@@ -4,17 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
-import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import com.codexo.githubclient.DetailActivity
 import com.codexo.githubclient.R
 import com.codexo.githubclient.databinding.FragmentHomeBinding
 
@@ -49,15 +46,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 override fun onProgressChanged(view: WebView, newProgress: Int) {
                     super.onProgressChanged(view, newProgress)
                     if (newProgress < 80) {
-                        binding!!.pbDialog.visibility = View.VISIBLE
+                        binding!!.progressBar.visibility = View.VISIBLE
                         binding!!.wvHome.visibility = View.GONE
                     }
                     if (newProgress >= 80) {
                         binding!!.wvHome.visibility = View.VISIBLE
-                        binding!!.pbDialog.visibility = View.GONE
+                        binding!!.progressBar.visibility = View.GONE
                         binding!!.swipeRefresh.isRefreshing = false
                     } else {
-                        binding!!.pbDialog.visibility = View.VISIBLE
+                        binding!!.progressBar.visibility = View.VISIBLE
                     }
                 }
             }
@@ -84,8 +81,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         private val CLASS_TAG = HomeFragment::class.java.simpleName.toString()
     }
 
-    private fun reloadActivity(url: String) {
-        TODO("Not yet implemented")
+    private fun openDetailActivity(url: String) {
+        val i = Intent(activity, DetailActivity::class.java)
+        i.putExtra(CLASS_TAG, url)
+        startActivity(i)
     }
 
     override fun onDestroy() {
@@ -98,8 +97,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             if (Uri.parse(url).host in targetUrl) {
                 binding!!.wvHome.loadUrl(url)
-//                reloadActivity(url)
-                Toast.makeText(context, Uri.parse(url).host, Toast.LENGTH_LONG).show()
+//                openDetailActivity(url)
+//                Toast.makeText(context, Uri.parse(url).host, Toast.LENGTH_LONG).show()
             } else {
                 Toast.makeText(context, url, Toast.LENGTH_LONG).show()
                 val i = Intent(Intent.ACTION_VIEW)

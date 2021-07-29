@@ -51,15 +51,15 @@ class ProfileFragment : Fragment() {
                 override fun onProgressChanged(view: WebView, newProgress: Int) {
                     super.onProgressChanged(view, newProgress)
                     if (newProgress < 80) {
-                        binding!!.pbDialog.visibility = View.VISIBLE
+                        binding!!.progressBar.visibility = View.VISIBLE
                         binding!!.wvProfile.visibility = View.GONE
                     }
                     if (newProgress >= 80) {
                         binding!!.wvProfile.visibility = View.VISIBLE
-                        binding!!.pbDialog.visibility = View.GONE
+                        binding!!.progressBar.visibility = View.GONE
                         binding!!.swipeRefresh.isRefreshing = false
                     } else {
-                        binding!!.pbDialog.visibility = View.VISIBLE
+                        binding!!.progressBar.visibility = View.VISIBLE
                     }
                 }
             }
@@ -92,7 +92,7 @@ class ProfileFragment : Fragment() {
             if (Uri.parse(url).host in targetUrl) {
                 binding!!.wvProfile.loadUrl(url)
 //                reloadActivity(url)
-                Toast.makeText(context, Uri.parse(url).host, Toast.LENGTH_LONG).show()
+//                Toast.makeText(context, Uri.parse(url).host, Toast.LENGTH_LONG).show()
             } else {
                 Toast.makeText(context, url, Toast.LENGTH_LONG).show()
                 val i = Intent(Intent.ACTION_VIEW)
