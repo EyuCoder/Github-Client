@@ -39,6 +39,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 setSupportMultipleWindows(true)
                 cacheMode = WebSettings.LOAD_DEFAULT
                 allowFileAccess = true
+                textZoom = 150
             }
 
             binding!!.wvHome.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY

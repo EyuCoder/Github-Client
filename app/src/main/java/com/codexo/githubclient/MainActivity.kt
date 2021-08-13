@@ -1,12 +1,15 @@
 package com.codexo.githubclient
 
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,12 +36,12 @@ class MainActivity : AppCompatActivity() {
         bottomNavView.setupWithNavController(navController)
     }
 
-//    override fun onBackPressed() {
-//        Snackbar.make(Context, "Are you sure you want to exit?", Snackbar.LENGTH_LONG)
-//            .setAction("Exit!") {
-//                super.onBackPressed()
-//            }
-//            .setBackgroundTint(Color.BLACK)
-//            .show()
-//    }
+    override fun onBackPressed() {
+        Snackbar.make(findViewById(R.id.bottomNavView), "Are you sure you want to exit?", Snackbar.LENGTH_LONG)
+            .setAction("Exit!") {
+                super.onBackPressed()
+            }
+            .setBackgroundTint(Color.BLACK)
+            .show()
+    }
 }

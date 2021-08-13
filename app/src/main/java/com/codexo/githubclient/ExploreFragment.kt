@@ -44,6 +44,7 @@ class ExploreFragment : Fragment() {
                 setSupportMultipleWindows(true)
                 cacheMode = WebSettings.LOAD_DEFAULT
                 allowFileAccess = true
+                textZoom = 150
             }
 
             binding!!.wvExplore.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY

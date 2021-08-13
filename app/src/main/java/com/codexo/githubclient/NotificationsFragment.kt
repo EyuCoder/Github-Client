@@ -43,6 +43,7 @@ class NotificationsFragment : Fragment() {
                 setSupportMultipleWindows(true)
                 cacheMode = WebSettings.LOAD_DEFAULT
                 allowFileAccess = true
+                textZoom = 150
             }
 
             binding!!.wvNotification.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY

@@ -44,6 +44,7 @@ class ProfileFragment : Fragment() {
                 setSupportMultipleWindows(true)
                 cacheMode = WebSettings.LOAD_DEFAULT
                 allowFileAccess = true
+                textZoom = 150
             }
 
             binding!!.wvProfile.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
